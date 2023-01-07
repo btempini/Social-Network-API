@@ -3,12 +3,13 @@ const {
   createUser,
   getAllUsers,
   getUserById,
+  updateUser,
 } = require("../../controllers/userController");
 
 //localhost:3001/api/users
 router.route("/").get(getAllUsers).post(createUser);
 
-//localhost:3001/api/users/:_id
-router.route("/:_id").get(getUserById);
+//localhost:3001/api/users/:userID
+router.route("/:userId").get(getUserById).post(updateUser);
 
 module.exports = router;

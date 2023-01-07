@@ -21,7 +21,7 @@ const userController = {
   },
   //Get user by ID
   getUserById(req, res) {
-    User.findOne({ _id: req.params._id }).then((dbUserData) => {
+    User.findOne({ _id: req.params.userId }).then((dbUserData) => {
       if (!dbUserData) {
         return res
           .status(404)
@@ -29,6 +29,28 @@ const userController = {
       }
       res.json(dbUserData);
     });
+  },
+  //Update User
+  updateUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      {
+        runValidators: true,
+        new: true,
+      }
+    )
+      .then((dbUserData) => {
+        !dbUserData
+          ? res
+              .status(404)
+              .json({ message: "no user with this id in database" })
+          : res.json(dbUserData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 };
 
