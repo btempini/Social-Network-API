@@ -19,9 +19,10 @@ const thoughtController = {
   createThought(req, res) {
     Thought.create(req.body)
       .then((thoughtData) => {
+        console.log(req.body);
         return User.findOneAndUpdate(
           {
-            _id: req.body.thoughtId,
+            _id: req.body.userId,
           },
           {
             $push: { thoughts: thoughtData._id },
