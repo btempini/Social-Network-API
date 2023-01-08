@@ -49,12 +49,27 @@ const thoughtController = {
         new: true,
       }
     )
-      .then((dbUserData) => {
-        !dbUserData
+      .then((dbThoughtData) => {
+        !dbThoughtData
           ? res
               .status(404)
               .json({ message: "No user with this id in database" })
-          : res.json(dbUserData);
+          : res.json(dbThoughtData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
+  deleteThought(req, res) {
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
+      .then((dbThoughtData) => {
+        !dbThoughtData
+          ? res
+              .status(404)
+              .json({ message: "No user with this id in database" })
+          : res.json("Success! Thought Removed...");
       })
       .catch((err) => {
         console.log(err);
